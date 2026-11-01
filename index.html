@@ -37,38 +37,30 @@
     a:hover { text-decoration-color: var(--text); }
 
     /* ---------- layout ---------- */
-    .page {
-      display: grid;
-      grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
-      grid-template-areas: "head stage" "body stage";
-      grid-template-rows: auto 1fr;
-      min-height: 100vh;
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 16vh 24px 96px;
     }
-    header   { grid-area: head; padding: 14vh 24px 0 max(24px, 8vw); }
-    .content { grid-area: body; padding: 0 24px 96px max(24px, 8vw); }
-    .stage   { grid-area: stage; position: sticky; top: 0; height: 100vh; }
+    @media (min-width: 1100px) { main { margin-left: max(24px, 12vw); } }
 
-    @media (max-width: 900px) {
-      .page { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "stage" "body"; }
-      header { padding: 9vh 20px 0; }
-      .content { padding: 0 20px 72px; }
-      .stage { position: relative; height: min(68vh, 520px); }
+    /* ---------- intro ---------- */
+    header { display: flex; align-items: center; gap: 1.25rem; }
+    .portrait {
+      flex: none;
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      background: var(--rule);
+      object-fit: cover;
     }
+    h1 { font-size: 2.1rem; font-weight: normal; letter-spacing: -0.015em; margin: 0; line-height: 1.2; }
+    .tagline { margin: 0.2rem 0 0; color: var(--muted); }
+    .tagline .placeholder { width: 240px; margin: 0.45rem 0 0; }
 
-    /* ---------- text ---------- */
-    h1 {
-      font-size: 2rem;
-      font-weight: normal;
-      letter-spacing: -0.015em;
-      margin: 0;
-    }
-    .formula {
-      margin: 0.35rem 0 0;
-      font-size: 0.85rem;
-      color: var(--muted);
-      font-variant-numeric: tabular-nums;
-    }
-    section { margin-top: 2.6rem; }
+    /* ---------- sections ---------- */
+    section { margin-top: 2.8rem; }
     h2 {
       display: flex;
       align-items: baseline;
@@ -80,130 +72,111 @@
       color: var(--muted);
       margin: 0 0 0.8rem;
     }
-    h2 .n { color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: 0; }
     h2::after { content: ""; flex: 1; border-top: 1px solid var(--rule); transform: translateY(-0.25em); }
-    .placeholder { height: 0.9rem; width: 70%; border-radius: 3px; background: var(--rule); margin: 0.55rem 0; }
-    .placeholder.short { width: 45%; }
+    .placeholder { height: 0.9rem; width: 80%; border-radius: 3px; background: var(--rule); margin: 0.55rem 0; }
+    .placeholder.short { width: 50%; }
     .links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
     footer { margin-top: 3.5rem; font-size: 0.8rem; color: var(--muted); }
 
-    /* ---------- protein stage ---------- */
-    #viewer { position: absolute; inset: 0; }
-    #viewer canvas { outline: none; }
-    .stage { cursor: grab; touch-action: pan-y; transition: opacity 0.5s ease; }
-    .stage.dragging { cursor: grabbing; }
-    .stage.fading { opacity: 0; }
-    #callout { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-    #callout line { stroke: var(--muted); stroke-width: 1; }
-    #callout circle { fill: none; stroke: var(--muted); stroke-width: 1; }
-    .ligand {
-      position: absolute;
-      left: 0;
-      top: 15%;
-      max-width: 220px;
-      font-size: 0.82rem;
-      line-height: 1.4;
-      color: var(--muted);
+    /* ---------- background protein ---------- */
+    #bg {
+      position: fixed;
+      top: 0; bottom: 0;
+      right: -12vw;
+      width: 72vw;
+      z-index: 0;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 2s ease;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 45%);
+              mask-image: linear-gradient(to right, transparent, #000 45%);
     }
-    .ligand b { display: block; font-weight: normal; color: var(--text); font-size: 0.95rem; }
-    .caption {
-      position: absolute;
-      right: 24px;
-      bottom: 20px;
-      text-align: right;
-      font-size: 0.8rem;
-      line-height: 1.5;
-      color: var(--muted);
-    }
-    .caption a { color: var(--muted); }
-    .caption button {
-      font: inherit;
-      color: var(--muted);
-      background: none;
-      border: 1px solid var(--rule);
-      border-radius: 999px;
-      padding: 0.05em 0.7em;
-      margin-left: 0.4em;
-      cursor: pointer;
-    }
-    .caption button:hover { color: var(--text); border-color: var(--muted); }
-    .legend { display: inline-flex; align-items: center; gap: 0.4em; }
-    .legend i { display: inline-block; width: 64px; height: 6px; border-radius: 3px;
-      background: linear-gradient(90deg, #0053d6, #65cbf3, #ffdb13, #ff7d45); }
+    #bg.on { opacity: var(--protein-opacity); }
+    :root { --protein-opacity: 0.22; }
+    @media (prefers-color-scheme: dark) { :root { --protein-opacity: 0.26; } }
     @media (max-width: 900px) {
-      .ligand { left: 20px; top: 6px; }
-      .caption { right: 20px; bottom: 6px; }
+      #bg { right: -30vw; width: 110vw; }
+      :root { --protein-opacity: 0.12; }
     }
+    .credit {
+      position: fixed;
+      right: 16px;
+      bottom: 12px;
+      z-index: 1;
+      font-size: 0.72rem;
+      color: var(--faint);
+    }
+    .credit a { color: var(--faint); text-decoration: none; }
+    .credit a:hover { color: var(--muted); }
+    @media (max-width: 900px) { .credit { display: none; } }
   </style>
 </head>
 <body>
-  <div class="page">
+  <div id="bg" aria-hidden="true"></div>
+
+  <main>
     <header>
-      <h1>Dean Bittker</h1>
+      <div class="portrait" role="img" aria-label="Photo of Dean Bittker"></div>
+      <div>
+        <h1>Dean Bittker</h1>
+        <div class="tagline"><div class="placeholder"></div></div>
+      </div>
     </header>
 
-    <div class="stage" id="stage" aria-label="Rotating 3D protein structure">
-      <div id="viewer"></div>
-      <svg id="callout" aria-hidden="true"><line id="leader"/><circle id="dot" r="16"/></svg>
-      <div class="ligand" id="ligand"></div>
-      <div class="caption" id="caption"></div>
-    </div>
+    <section>
+      <h2>About</h2>
+      <div class="placeholder"></div>
+      <div class="placeholder"></div>
+      <div class="placeholder short"></div>
+    </section>
+    <section>
+      <h2>Now</h2>
+      <div class="placeholder short"></div>
+    </section>
+    <section>
+      <h2>Research</h2>
+      <div class="placeholder"></div>
+      <div class="placeholder"></div>
+    </section>
+    <section>
+      <h2>Projects</h2>
+      <div class="placeholder"></div>
+      <div class="placeholder short"></div>
+    </section>
+    <section>
+      <h2>Writing &amp; notes</h2>
+      <div class="placeholder short"></div>
+    </section>
+    <section>
+      <h2>Elsewhere</h2>
+      <ul class="links">
+        <li><a href="mailto:dbittker@mit.edu">Email</a></li>
+        <li><a href="https://github.com/DeanBittker">GitHub</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </section>
+    <footer>&copy; <span id="y">2026</span> Dean Bittker</footer>
+  </main>
 
-    <main class="content">
-      <section>
-        <h2><span class="n">01</span>About</h2>
-        <div class="placeholder"></div>
-        <div class="placeholder short"></div>
-      </section>
-      <section>
-        <h2><span class="n">02</span>Now</h2>
-        <div class="placeholder short"></div>
-      </section>
-      <section>
-        <h2><span class="n">03</span>Research</h2>
-        <div class="placeholder"></div>
-        <div class="placeholder"></div>
-      </section>
-      <section>
-        <h2><span class="n">04</span>Projects</h2>
-        <div class="placeholder"></div>
-        <div class="placeholder short"></div>
-      </section>
-      <section>
-        <h2><span class="n">05</span>Writing &amp; notes</h2>
-        <div class="placeholder short"></div>
-      </section>
-      <section>
-        <h2><span class="n">06</span>Elsewhere</h2>
-        <ul class="links">
-          <li><a href="mailto:dbittker@mit.edu">Email</a></li>
-          <li><a href="https://github.com/DeanBittker">GitHub</a></li>
-          <li><a href="#">LinkedIn</a></li>
-        </ul>
-      </section>
-      <footer>&copy; <span id="y">2026</span> Dean Bittker</footer>
-    </main>
-  </div>
+  <div class="credit" id="credit"></div>
 
   <script src="vendor/3Dmol-2.5.5.min.js"></script>
   <script>
   (() => {
     document.getElementById('y').textContent = new Date().getFullYear();
 
+    // Background structures: protein ribbon + the chemical it holds.
     const PROTEINS = [
-      { file: 'gfp', name: 'Green fluorescent protein (S65T)', pdb: '1EMA',
-        ligand: { resn: 'CRO' }, label: 'Chromophore', sub: 'Thr65–Tyr66–Gly67, cyclized inside the β-barrel' },
-      { file: 'sh3', name: 'GRB2 C-terminal SH3 domain', pdb: '2VWF',
-        ligand: { chain: 'B' }, label: 'Proline-rich peptide', sub: 'bound in the SH3 binding groove' },
-      { file: 'tem', name: 'TEM-1 β-lactamase', pdb: '1FQG',
-        ligand: { resn: 'PNM' }, label: 'Penicillin G', sub: 'caught as an acyl-enzyme on Ser70' },
+      { file: 'gfp', name: 'GFP + chromophore', pdb: '1EMA', ligand: { resn: 'CRO' } },
+      { file: 'sh3', name: 'GRB2 SH3 + peptide', pdb: '2VWF', ligand: { chain: 'B' } },
+      { file: 'tem', name: 'TEM-1 β-lactamase + penicillin G', pdb: '1FQG', ligand: { resn: 'PNM' } },
     ];
+    const p = PROTEINS[Math.floor(Math.random() * PROTEINS.length)];
 
     const dark = matchMedia('(prefers-color-scheme: dark)').matches;
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // AlphaFold confidence palette, used here for ordered → flexible (crystallographic B-factor).
+    // AlphaFold palette (ordered → flexible, by crystallographic B-factor)
     const STOPS = [dark ? [70, 130, 240] : [0, 83, 214], [101, 203, 243], [255, 219, 19], [255, 125, 69]];
     const hex = c => '#' + c.map(v => v.toString(16).padStart(2, '0')).join('');
     const ramp = t => {
@@ -213,117 +186,48 @@
     };
     const elem = carbon => ({ prop: 'elem', map: { C: carbon, O: '#e8402a', N: '#2f66e6', S: '#e2b021', SE: '#e2b021' } });
 
-    const stage = document.getElementById('stage');
-    const ligandEl = document.getElementById('ligand');
-    const caption = document.getElementById('caption');
-    const leader = document.getElementById('leader');
-    const dot = document.getElementById('dot');
+    document.getElementById('credit').innerHTML =
+      `<a href="https://www.rcsb.org/structure/${p.pdb}" target="_blank" rel="noopener">${p.name} · PDB ${p.pdb}</a>`;
 
-    const viewer = $3Dmol.createViewer(document.getElementById('viewer'), {
-      backgroundColor: 'white', backgroundAlpha: 0, antialias: true, nomouse: true,
-    });
+    const bg = document.getElementById('bg');
+    const viewer = $3Dmol.createViewer(bg, { backgroundColor: 'white', backgroundAlpha: 0, antialias: true, nomouse: true });
 
-    let current = -1, centroid = null, visible = true;
-
-    async function show(idx) {
-      current = idx;
-      const p = PROTEINS[idx];
-      const text = await fetch(`structures/${p.file}.pdb`).then(r => r.text());
-
-      viewer.clear();
+    fetch(`structures/${p.file}.pdb`).then(r => r.text()).then(text => {
       const model = viewer.addModel(text, 'pdb');
       const atoms = model.selectedAtoms({});
       const bs = atoms.filter(a => a.atom === 'CA').map(a => a.b).sort((a, b) => a - b);
       const lo = bs[Math.floor(bs.length * 0.1)], hi = bs[bs.length - 1];
-      const ligSel = p.ligand;
+      const lig = p.ligand;
 
-      viewer.setStyle({ not: ligSel }, {
+      viewer.setStyle({ not: lig }, {
         cartoon: { colorfunc: a => ramp(Math.pow(Math.max(0, (a.b - lo) / (hi - lo || 1)), 1.4)), thickness: 0.35, arrows: true },
       });
-      // binding-pocket side chains as thin sticks
-      // (the trimmed structure files only keep side chains for residues touching the chemical)
       const pocket = [...new Set(atoms.filter(a => a.atom === 'CB' && a.chain === 'A' && !a.hetflag).map(a => a.resi))];
       if (pocket.length) {
         viewer.addStyle({ chain: 'A', hetflag: false, resi: pocket, not: { atom: ['N', 'C', 'O'] } },
                         { stick: { radius: 0.09, colorscheme: elem(dark ? '#8a8a86' : '#9b9b96') } });
       }
-      // the chemical: ball-and-stick
-      viewer.setStyle(ligSel, {
-        stick: { radius: 0.17, colorscheme: elem(dark ? '#d9d9d4' : '#3c3c3a') },
-        sphere: { scale: 0.26, colorscheme: elem(dark ? '#d9d9d4' : '#3c3c3a') },
-      });
-
-      const lig = model.selectedAtoms(ligSel);
-      centroid = lig.reduce((c, a) => ({ x: c.x + a.x / lig.length, y: c.y + a.y / lig.length, z: c.z + a.z / lig.length }), { x: 0, y: 0, z: 0 });
+      const carbon = dark ? '#d9d9d4' : '#3c3c3a';
+      viewer.setStyle(lig, { stick: { radius: 0.17, colorscheme: elem(carbon) }, sphere: { scale: 0.26, colorscheme: elem(carbon) } });
 
       viewer.zoomTo();
-      viewer.zoom(0.82);
+      viewer.zoom(0.9);
       viewer.rotate(-20, 'x');
       viewer.render();
+      bg.classList.add('on');
 
-      ligandEl.innerHTML = `<b>${p.label}</b>${p.sub}`;
-      caption.innerHTML =
-        `<a href="https://www.rcsb.org/structure/${p.pdb}" target="_blank" rel="noopener">${p.name} · PDB ${p.pdb}</a>` +
-        `<button type="button" title="Show another protein">↻ next</button><br>` +
-        `<span class="legend">ordered <i></i> flexible</span>`;
-      caption.querySelector('button').onclick = next;
-      updateCallout();
-    }
-
-    function next() {
-      stage.classList.add('fading');
-      setTimeout(async () => {
-        await show((current + 1) % PROTEINS.length);
-        stage.classList.remove('fading');
-      }, 500);
-    }
-
-    // Leader line from the label to the bound chemical, tracked as the protein turns.
-    function updateCallout() {
-      if (!centroid) return;
-      const s = viewer.modelToScreen(centroid);          // page coordinates
-      const sr = stage.getBoundingClientRect();
-      const tx = s.x - scrollX - sr.left, ty = s.y - scrollY - sr.top;
-      const lr = ligandEl.getBoundingClientRect();
-      const lx = lr.left - sr.left + Math.min(lr.width, 160) * 0.5, ly = lr.bottom - sr.top + 6;
-      leader.setAttribute('x1', lx); leader.setAttribute('y1', ly);
-      leader.setAttribute('x2', tx); leader.setAttribute('y2', ty);
-      dot.setAttribute('cx', tx); dot.setAttribute('cy', ty);
-    }
-
-    // Motion: slow spin, scroll turns it, drag spins it.
-    let last = performance.now(), lastScroll = scrollY, dragging = false, px = 0, py = 0, vx = 0;
-    function frame(now) {
-      const dt = Math.min(0.05, (now - last) / 1000); last = now;
-      if (visible && !dragging) {
-        const ds = scrollY - lastScroll; lastScroll = scrollY;
-        const spin = (reduceMotion ? 0 : 6) * dt + ds * 0.12 + vx;
-        vx *= 0.92;
-        if (Math.abs(spin) > 1e-4) { viewer.rotate(spin, 'y'); viewer.render(); }
-        updateCallout();
-      }
+      // Slow drift; scrolling turns it a little.
+      let last = performance.now(), lastScroll = scrollY;
+      const frame = now => {
+        const dt = Math.min(0.05, (now - last) / 1000); last = now;
+        const spin = (reduceMotion ? 0 : 4) * dt + (scrollY - lastScroll) * 0.08;
+        lastScroll = scrollY;
+        if (spin) { viewer.rotate(spin, 'y'); viewer.render(); }
+        requestAnimationFrame(frame);
+      };
       requestAnimationFrame(frame);
-    }
-
-    stage.addEventListener('pointerdown', e => {
-      if (e.target.closest('.caption')) return;
-      dragging = true; px = e.clientX; py = e.clientY; vx = 0;
-      stage.classList.add('dragging'); stage.setPointerCapture(e.pointerId);
     });
-    stage.addEventListener('pointermove', e => {
-      if (!dragging) return;
-      const dx = e.clientX - px, dy = e.clientY - py; px = e.clientX; py = e.clientY;
-      viewer.rotate(dx * 0.4, 'y'); viewer.rotate(dy * 0.4, 'x'); viewer.render();
-      vx = dx * 0.1; updateCallout();
-    });
-    const end = () => { dragging = false; stage.classList.remove('dragging'); };
-    stage.addEventListener('pointerup', end);
-    stage.addEventListener('pointercancel', end);
-
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(stage);
-    addEventListener('resize', () => { viewer.resize(); viewer.render(); updateCallout(); });
-
-    show(Math.floor(Math.random() * PROTEINS.length)).then(() => requestAnimationFrame(frame));
+    addEventListener('resize', () => { viewer.resize(); viewer.render(); });
   })();
   </script>
 </body>
