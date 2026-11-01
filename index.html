@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dean Bittker</title>
+  <meta name="description" content="Dean Bittker — student at MIT.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+  <style>
+    :root {
+      --bg: #fdfdfb;
+      --text: #1f1f1f;
+      --muted: #6b6b6b;
+      --link: #1f1f1f;
+      --rule: #e6e6e1;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141414;
+        --text: #e8e8e6;
+        --muted: #9a9a96;
+        --link: #e8e8e6;
+        --rule: #2a2a2a;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 17px/1.65 Georgia, "Iowan Old Style", "Times New Roman", serif;
+    }
+    main {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 12vh 20px 80px;
+    }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: normal;
+      margin: 0 0 1.5rem;
+      letter-spacing: -0.01em;
+    }
+    h2 {
+      font-size: 0.8rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 2.5rem 0 0.75rem;
+    }
+    p { margin: 0 0 1rem; }
+    a {
+      color: var(--link);
+      text-decoration: underline;
+      text-decoration-color: var(--muted);
+      text-underline-offset: 3px;
+    }
+    a:hover { text-decoration-color: var(--text); }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { margin: 0 0 0.6rem; }
+    .muted { color: var(--muted); }
+    footer {
+      margin-top: 4rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Dean Bittker</h1>
+
+    <p>Hi! I'm a student at <a href="https://www.mit.edu">MIT</a>. <!-- EDIT: say what you study / what you're into --></p>
+    <p>Right now I'm thinking about [things you're working on or curious about]. Before this, I [a line about past work, research, or projects].</p>
+
+    <h2>Projects</h2>
+    <ul>
+      <li><a href="#">Project one</a> <span class="muted">— one-line description</span></li>
+      <li><a href="#">Project two</a> <span class="muted">— one-line description</span></li>
+    </ul>
+
+    <h2>Elsewhere</h2>
+    <ul>
+      <li><a href="mailto:dbittker@mit.edu">Email</a></li>
+      <li><a href="https://github.com/deanbittker">GitHub</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+
+    <footer>&copy; <span id="y">2026</span> Dean Bittker</footer>
+  </main>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
