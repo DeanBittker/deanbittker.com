@@ -95,8 +95,8 @@
     :root { --protein-opacity: 0.22; }
     @media (prefers-color-scheme: dark) { :root { --protein-opacity: 0.26; } }
     @media (max-width: 900px) {
-      #bg { right: -30vw; width: 110vw; }
-      :root { --protein-opacity: 0.12; }
+      #bg { right: -30vw; width: 110vw; -webkit-mask-image: none; mask-image: none; }
+      :root { --protein-opacity: 0.09; }
     }
     .credit {
       position: fixed;
@@ -189,8 +189,19 @@
     document.getElementById('credit').innerHTML =
       `<a href="https://www.rcsb.org/structure/${p.pdb}" target="_blank" rel="noopener">${p.name} · PDB ${p.pdb}</a>`;
 
+    // Performance: it's a faint background, so render it at low resolution and a modest frame rate.
+    const small = matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+    const realDpr = window.devicePixelRatio || 1;
+    try {
+      Object.defineProperty(window, 'devicePixelRatio', { configurable: true, get: () => Math.min(realDpr, small ? 1 : 1.25) });
+    } catch (e) {}
+    const FPS = small ? 20 : 30;
+
     const bg = document.getElementById('bg');
-    const viewer = $3Dmol.createViewer(bg, { backgroundColor: 'white', backgroundAlpha: 0, antialias: true, nomouse: true });
+    const viewer = $3Dmol.createViewer(bg, {
+      backgroundColor: 'white', backgroundAlpha: 0, nomouse: true,
+      antialias: !small, cartoonQuality: small ? 4 : 6,
+    });
 
     fetch(`structures/${p.file}.pdb`).then(r => r.text()).then(text => {
       const model = viewer.addModel(text, 'pdb');
@@ -216,14 +227,15 @@
       viewer.render();
       bg.classList.add('on');
 
-      // Slow drift; scrolling turns it a little.
+      // Slow drift; scrolling turns it a little. Throttled, and paused when the tab is hidden.
       let last = performance.now(), lastScroll = scrollY;
       const frame = now => {
-        const dt = Math.min(0.05, (now - last) / 1000); last = now;
+        requestAnimationFrame(frame);
+        if (now - last < 1000 / FPS - 2) return;
+        const dt = Math.min(0.1, (now - last) / 1000); last = now;
         const spin = (reduceMotion ? 0 : 4) * dt + (scrollY - lastScroll) * 0.08;
         lastScroll = scrollY;
-        if (spin) { viewer.rotate(spin, 'y'); viewer.render(); }
-        requestAnimationFrame(frame);
+        if (Math.abs(spin) > 0.01) { viewer.rotate(spin, 'y'); viewer.render(); }
       };
       requestAnimationFrame(frame);
     });
