@@ -40,45 +40,16 @@
     main {
       position: relative;
       z-index: 1;
-      max-width: 620px;
+      max-width: 560px;
       margin: 0 auto;
-      padding: 16vh 24px 96px;
+      padding: 22vh 24px 96px;
     }
     @media (min-width: 1100px) { main { margin-left: max(24px, 12vw); } }
 
-    /* ---------- intro ---------- */
-    header { display: flex; align-items: center; gap: 1.25rem; }
-    .portrait {
-      flex: none;
-      width: 84px; height: 84px;
-      border-radius: 50%;
-      background: var(--rule);
-      object-fit: cover;
-    }
-    h1 { font-size: 2.1rem; font-weight: normal; letter-spacing: -0.015em; margin: 0; line-height: 1.2; }
-    .tagline { margin: 0.2rem 0 0; color: var(--muted); }
-
-    /* ---------- sections ---------- */
-    section { margin-top: 2.8rem; }
-    h2 {
-      display: flex;
-      align-items: baseline;
-      gap: 0.6rem;
-      font-size: 0.78rem;
-      font-weight: normal;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin: 0 0 0.8rem;
-    }
-    h2::after { content: ""; flex: 1; border-top: 1px solid var(--rule); transform: translateY(-0.25em); }
-    p { margin: 0 0 1rem; }
-    .entry { margin-bottom: 1.4rem; }
-    .entry p { margin: 0.2rem 0 0; color: var(--text); }
-    .entry-head { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
-    .meta { flex: none; font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
-    .links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
-    footer { margin-top: 3.5rem; font-size: 0.8rem; color: var(--muted); }
+    /* ---------- text ---------- */
+    h1 { font-size: 1.6rem; font-weight: normal; letter-spacing: -0.01em; margin: 0 0 1.4rem; line-height: 1.3; }
+    p { margin: 0 0 1.1rem; }
+    .links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.3rem; margin-top: 2rem; }
 
     /* ---------- background protein ---------- */
     #bg {
@@ -117,62 +88,17 @@
   <div id="bg" aria-hidden="true"></div>
 
   <main>
-    <header>
-      <div class="portrait" role="img" aria-label="Photo of Dean Bittker"></div>
-      <div>
-        <h1>Dean Bittker</h1>
-        <p class="tagline">Computer science &amp; molecular biology at MIT</p>
-      </div>
-    </header>
+    <h1>My name is Dean Bittker.</h1>
 
-    <section>
-      <h2>About</h2>
-      <p>I'm a sophomore at <a href="https://www.mit.edu">MIT</a> studying computer science and molecular biology. I'm interested in machine learning for protein engineering: predicting what a mutation will do to a protein, and then using those predictions to design better ones.</p>
-      <p>Outside of academics, I row in the first varsity eight on MIT's lightweight crew team. I grew up in Cambridge and started rowing at Cambridge Rindge and Latin, where I captained the team.</p>
-    </section>
+    <p>I am a sophomore at <a href="https://www.mit.edu">MIT</a> studying computer science and molecular biology, and I am interested in machine learning for protein engineering.</p>
 
-    <section>
-      <h2>Now</h2>
-      <p>Working on ProteinGym2 in the Marks Lab, and on Aurora, a side project designing GFP variants with protein language models.</p>
-    </section>
+    <p>Outside of academics, I row on MIT's lightweight crew team.</p>
 
-    <section>
-      <h2>Research</h2>
-      <div class="entry">
-        <div class="entry-head"><span><a href="https://www.deboramarkslab.com">Marks Lab</a>, Harvard Medical School</span> <span class="meta">2026 – now</span></div>
-        <p>I lead the supervised track of ProteinGym2, a benchmark for predicting the effects of protein mutations. Most of my work is on how well models trained on some proteins transfer to ones they've never seen, and on making sure the evaluation actually measures that.</p>
-      </div>
-      <div class="entry">
-        <div class="entry-head"><span><a href="https://honglab.mit.edu">Hong Lab</a>, MIT Chemistry</span> <span class="meta">2025 – 2026</span></div>
-        <p>I expressed and purified the envelope (E) protein of the MERS coronavirus for NMR structural studies, and ran experiments on the lab's 800&nbsp;MHz spectrometer.</p>
-      </div>
-    </section>
-
-    <section>
-      <h2>Projects</h2>
-      <div class="entry">
-        <div class="entry-head"><span>Aurora</span> <span class="meta">2026 – now</span></div>
-        <p>Fine-tuning ESM-2 to predict GFP fluorescence, then using it to design new variants. The interesting part has been catching the model fooling itself, proposing sequences it loves that are far from anything it has seen. A trust region fixed most of that.</p>
-      </div>
-      <div class="entry">
-        <div class="entry-head"><span>Syndesis Health</span> <span class="meta">Summer 2026</span></div>
-        <p>Software engineering internship. I shipped two production apps that replaced a spreadsheet process for coordinating health-data requests across 61 data partners.</p>
-      </div>
-      <div class="entry">
-        <div class="entry-head"><span>Rowdar</span> <span class="meta">2024 – 2025</span></div>
-        <p>An onboard tracking system for rowing crews and coaches, built in high school with a Lemelson-MIT InvenTeam grant. We filed a provisional patent.</p>
-      </div>
-    </section>
-
-    <section>
-      <h2>Elsewhere</h2>
-      <ul class="links">
-        <li><a href="mailto:deanbittker@gmail.com">Email</a></li>
-        <li><a href="https://github.com/DeanBittker">GitHub</a></li>
-        <li><a href="https://www.linkedin.com/in/dean-bittker">LinkedIn</a></li>
-      </ul>
-    </section>
-    <footer>&copy; <span id="y">2026</span> Dean Bittker</footer>
+    <p class="links">
+      <a href="mailto:deanbittker@gmail.com">Email</a>
+      <a href="https://github.com/DeanBittker">GitHub</a>
+      <a href="https://www.linkedin.com/in/dean-bittker">LinkedIn</a>
+    </p>
   </main>
 
   <div class="credit" id="credit"></div>
@@ -180,8 +106,7 @@
   <script src="vendor/3Dmol-2.5.5.min.js"></script>
   <script>
   (() => {
-    document.getElementById('y').textContent = new Date().getFullYear();
-
+    
     // Background structures: protein ribbon + the chemical it holds.
     const PROTEINS = [
       { file: 'gfp', name: 'GFP + chromophore', pdb: '1EMA', ligand: { resn: 'CRO' } },
