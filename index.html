@@ -111,9 +111,9 @@
     
     // Background structures: protein ribbon + the chemical it holds.
     const PROTEINS = [
-      { file: 'gfp', name: 'GFP + chromophore', pdb: '1EMA', ligand: { resn: 'CRO' } },
-      { file: 'sh3', name: 'GRB2 SH3 + peptide', pdb: '2VWF', ligand: { chain: 'B' } },
-      { file: 'tem', name: 'TEM-1 β-lactamase + penicillin G', pdb: '1FQG', ligand: { resn: 'PNM' } },
+      { file: 'gfp', name: 'GFP', pdb: '1EMA', ligand: { resn: 'CRO' } },
+      { file: 'sh3', name: 'SH3', pdb: '2VWF', ligand: { chain: 'B' } },
+      { file: 'tem', name: 'TEM-1', pdb: '1FQG', ligand: { resn: 'PNM' } },
     ];
     const p = PROTEINS[Math.floor(Math.random() * PROTEINS.length)];
 
@@ -131,7 +131,7 @@
     const elem = carbon => ({ prop: 'elem', map: { C: carbon, O: '#e8402a', N: '#2f66e6', S: '#e2b021', SE: '#e2b021' } });
 
     document.getElementById('credit').innerHTML =
-      `<a href="https://www.rcsb.org/structure/${p.pdb}" target="_blank" rel="noopener">${p.name} · PDB ${p.pdb}</a>`;
+      `<a href="https://www.rcsb.org/structure/${p.pdb}" target="_blank" rel="noopener" title="PDB ${p.pdb}">${p.name}</a>`;
 
     // Performance: it's a faint background, so render it at low resolution and a modest frame rate.
     const small = matchMedia('(max-width: 900px), (pointer: coarse)').matches;
