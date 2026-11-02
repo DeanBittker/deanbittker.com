@@ -114,6 +114,9 @@
       { file: 'gfp', name: 'GFP', pdb: '1EMA', ligand: { resn: 'CRO' } },
       { file: 'sh3', name: 'SH3', pdb: '2VWF', ligand: { chain: 'B' } },
       { file: 'tem', name: 'TEM-1', pdb: '1FQG', ligand: { resn: 'PNM' } },
+      // AlphaFold 3 prediction of the MERS-CoV E pentamer; B-factor column holds pLDDT.
+      { file: 'mers', name: 'MERS E', plddt: true, url: 'https://www.uniprot.org/uniprotkb/K9N5R3/entry',
+        tip: 'AlphaFold 3 prediction, colored by pLDDT' },
     ];
     const p = PROTEINS[Math.floor(Math.random() * PROTEINS.length)];
 
@@ -131,7 +134,7 @@
     const elem = carbon => ({ prop: 'elem', map: { C: carbon, O: '#e8402a', N: '#2f66e6', S: '#e2b021', SE: '#e2b021' } });
 
     document.getElementById('credit').innerHTML =
-      `<a href="https://www.rcsb.org/structure/${p.pdb}" target="_blank" rel="noopener" title="PDB ${p.pdb}">${p.name}</a>`;
+      `<a href="${p.url || 'https://www.rcsb.org/structure/' + p.pdb}" target="_blank" rel="noopener" title="${p.tip || 'PDB ' + p.pdb}">${p.name}</a>`;
 
     // Performance: it's a faint background, so render it at low resolution and a modest frame rate.
     const small = matchMedia('(max-width: 900px), (pointer: coarse)').matches;
@@ -154,6 +157,11 @@
       const lo = bs[Math.floor(bs.length * 0.1)], hi = bs[bs.length - 1];
       const lig = p.ligand;
 
+      if (p.plddt) {
+        // Standard AlphaFold confidence bins: >90, 70–90, 50–70, <50
+        const bin = v => v > 90 ? hex(STOPS[0]) : v > 70 ? hex(STOPS[1]) : v > 50 ? hex(STOPS[2]) : hex(STOPS[3]);
+        viewer.setStyle({}, { cartoon: { colorfunc: a => bin(a.b), thickness: 0.35, arrows: true } });
+      } else {
       viewer.setStyle({ not: lig }, {
         cartoon: { colorfunc: a => ramp(Math.pow(Math.max(0, (a.b - lo) / (hi - lo || 1)), 1.4)), thickness: 0.35, arrows: true },
       });
@@ -164,6 +172,7 @@
       }
       const carbon = dark ? '#d9d9d4' : '#3c3c3a';
       viewer.setStyle(lig, { stick: { radius: 0.17, colorscheme: elem(carbon) }, sphere: { scale: 0.26, colorscheme: elem(carbon) } });
+      }
 
       viewer.zoomTo();
       viewer.zoom(0.9);
