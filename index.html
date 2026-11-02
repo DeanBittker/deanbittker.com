@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dean Bittker</title>
-  <meta name="description" content="Dean Bittker — proteins, chemistry, and machine learning at MIT.">
+  <meta name="description" content="Dean Bittker — computer science and molecular biology at MIT; machine learning for protein engineering.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,8 86,29 86,71 50,92 14,71 14,29' fill='none' stroke='%230053D6' stroke-width='9'/><circle cx='50' cy='50' r='11' fill='%23FF7D45'/></svg>">
   <style>
     :root {
@@ -57,7 +57,6 @@
     }
     h1 { font-size: 2.1rem; font-weight: normal; letter-spacing: -0.015em; margin: 0; line-height: 1.2; }
     .tagline { margin: 0.2rem 0 0; color: var(--muted); }
-    .tagline .placeholder { width: 240px; margin: 0.45rem 0 0; }
 
     /* ---------- sections ---------- */
     section { margin-top: 2.8rem; }
@@ -73,8 +72,11 @@
       margin: 0 0 0.8rem;
     }
     h2::after { content: ""; flex: 1; border-top: 1px solid var(--rule); transform: translateY(-0.25em); }
-    .placeholder { height: 0.9rem; width: 80%; border-radius: 3px; background: var(--rule); margin: 0.55rem 0; }
-    .placeholder.short { width: 50%; }
+    p { margin: 0 0 1rem; }
+    .entry { margin-bottom: 1.4rem; }
+    .entry p { margin: 0.2rem 0 0; color: var(--text); }
+    .entry-head { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+    .meta { flex: none; font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
     .links { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
     footer { margin-top: 3.5rem; font-size: 0.8rem; color: var(--muted); }
 
@@ -119,40 +121,55 @@
       <div class="portrait" role="img" aria-label="Photo of Dean Bittker"></div>
       <div>
         <h1>Dean Bittker</h1>
-        <div class="tagline"><div class="placeholder"></div></div>
+        <p class="tagline">Computer science &amp; molecular biology at MIT</p>
       </div>
     </header>
 
     <section>
       <h2>About</h2>
-      <div class="placeholder"></div>
-      <div class="placeholder"></div>
-      <div class="placeholder short"></div>
+      <p>I'm a sophomore at <a href="https://www.mit.edu">MIT</a> studying computer science and molecular biology. I'm interested in machine learning for protein engineering: predicting what a mutation will do to a protein, and then using those predictions to design better ones.</p>
+      <p>Outside of academics, I row in the first varsity eight on MIT's lightweight crew team. I grew up in Cambridge and started rowing at Cambridge Rindge and Latin, where I captained the team.</p>
     </section>
+
     <section>
       <h2>Now</h2>
-      <div class="placeholder short"></div>
+      <p>Working on ProteinGym2 in the Marks Lab, and on Aurora, a side project designing GFP variants with protein language models.</p>
     </section>
+
     <section>
       <h2>Research</h2>
-      <div class="placeholder"></div>
-      <div class="placeholder"></div>
+      <div class="entry">
+        <div class="entry-head"><span><a href="https://www.deboramarkslab.com">Marks Lab</a>, Harvard Medical School</span> <span class="meta">2026 – now</span></div>
+        <p>I lead the supervised track of ProteinGym2, a benchmark for predicting the effects of protein mutations. Most of my work is on how well models trained on some proteins transfer to ones they've never seen, and on making sure the evaluation actually measures that.</p>
+      </div>
+      <div class="entry">
+        <div class="entry-head"><span><a href="https://honglab.mit.edu">Hong Lab</a>, MIT Chemistry</span> <span class="meta">2025 – 2026</span></div>
+        <p>I expressed and purified the envelope (E) protein of the MERS coronavirus for NMR structural studies, and ran experiments on the lab's 800&nbsp;MHz spectrometer.</p>
+      </div>
     </section>
+
     <section>
       <h2>Projects</h2>
-      <div class="placeholder"></div>
-      <div class="placeholder short"></div>
+      <div class="entry">
+        <div class="entry-head"><span>Aurora</span> <span class="meta">2026 – now</span></div>
+        <p>Fine-tuning ESM-2 to predict GFP fluorescence, then using it to design new variants. The interesting part has been catching the model fooling itself, proposing sequences it loves that are far from anything it has seen. A trust region fixed most of that.</p>
+      </div>
+      <div class="entry">
+        <div class="entry-head"><span>Syndesis Health</span> <span class="meta">Summer 2026</span></div>
+        <p>Software engineering internship. I shipped two production apps that replaced a spreadsheet process for coordinating health-data requests across 61 data partners.</p>
+      </div>
+      <div class="entry">
+        <div class="entry-head"><span>Rowdar</span> <span class="meta">2024 – 2025</span></div>
+        <p>An onboard tracking system for rowing crews and coaches, built in high school with a Lemelson-MIT InvenTeam grant. We filed a provisional patent.</p>
+      </div>
     </section>
-    <section>
-      <h2>Writing &amp; notes</h2>
-      <div class="placeholder short"></div>
-    </section>
+
     <section>
       <h2>Elsewhere</h2>
       <ul class="links">
-        <li><a href="mailto:dbittker@mit.edu">Email</a></li>
+        <li><a href="mailto:deanbittker@gmail.com">Email</a></li>
         <li><a href="https://github.com/DeanBittker">GitHub</a></li>
-        <li><a href="#">LinkedIn</a></li>
+        <li><a href="https://www.linkedin.com/in/dean-bittker">LinkedIn</a></li>
       </ul>
     </section>
     <footer>&copy; <span id="y">2026</span> Dean Bittker</footer>
